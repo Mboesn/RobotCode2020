@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,7 +20,7 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
     private CANSparkMax climbSparkMax;
-
+    private CANEncoder climbEncoder;
     /**
      * The climb holds all the methods used for the robots climb in the endgame.
      * Climb is the system that pulls the rope to make the robot levitate. Hook is
@@ -44,6 +45,8 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
+
+        climbEncoder = climbSparkMax.getEncoder();
     }
 
     @Log(name = "Climb/Hook Rotations")
@@ -97,4 +100,8 @@ public class Climb extends SubsystemBase implements Loggable {
         hookTalonSRX.configForwardSoftLimitEnable(false);
         hookTalonSRX.configReverseSoftLimitEnable(false);
     }
+
+	public double getClimbPosition() {
+		return climbEncoder.getPosition();
+	}
 }
