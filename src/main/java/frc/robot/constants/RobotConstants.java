@@ -22,6 +22,7 @@ public class RobotConstants {
         public static final boolean kRightEncoderInverted = true;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
+        public static final double kMoveWhenClimbingPower = 0.2;
     }
 
     public static class TrigonDriveConstants {
@@ -83,6 +84,7 @@ public class RobotConstants {
         public static final double kCloseToHeightHookPower = 0.2;
         public static final double kHookTolerance = 0.5;
         public static final double kDesiredHookHeight = 6.5;
+        public static final double kHookStallLimit = 40;
     }
 
     public static class ShooterConstants {
