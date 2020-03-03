@@ -12,7 +12,26 @@ public enum Song {
     Twentieth_Century_Fox,
     Rasputin,
     Animal_Crossing_Nook_Scranny,
-    Kid_Francescoli_Moon;
+    Kid_Francescoli_Moon,
+    Fail,
+    Success,
+    Running_in_the_90s,
+    Soviet_union,
+    I_got_a_feeling,
+    Avengers_theme,
+    Another_one_bites_the_dust,
+    Starwars_cantina,
+    Duel_of_the_fates,
+    Eye_of_the_tiger,
+    Indiana_jones,
+    We_are_the_champions,
+    Im_a_believer,
+    Crab_rave,
+    Bohemian_rhapsody,
+    Starwars_theme_and_twentieth_century_fox,
+    Tetris,
+    How_i_met_your_mother,
+    All_star;
 
     private final String path;
 

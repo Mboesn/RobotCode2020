@@ -99,9 +99,11 @@ public class DashboardDataContainer {
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
 
-        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
-        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
-        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin), drivetrain));
+        // music commands 
+        for(int i = 0; i < Song.values().length; i++) {
+            int[] j = new int[] {i};
+            putData("Drivetrain/Load " + Song.values()[i].toString(), new InstantCommand(() -> drivetrain.loadSong(Song.values()[j[0]]), drivetrain));
+        }
         putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
 
         // Command groups data
