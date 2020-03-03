@@ -19,6 +19,10 @@ public class AutoClimb extends SequentialCommandGroup {
     public static final double kJoystickDeadband = 0.08;
     public static final double kDrivetrainMovementTime = 0.1;
 
+    /**
+     * Start a the climb sequence during the end game
+     * @param goDownButton whether should th hook should start go down
+     */
     public AutoClimb(BooleanSupplier goDownButton) {
         addCommands(
             deadline(
