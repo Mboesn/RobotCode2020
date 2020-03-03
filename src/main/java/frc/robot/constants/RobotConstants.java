@@ -82,6 +82,7 @@ public class RobotConstants {
         public static final double kCloseToHeightError = 1;
         public static final double kCloseToHeightHookPower = 0.2;
         public static final double kHookTolerance = 0.5;
+        public static final double kDesiredHookHeight = 6.5;
     }
 
     public static class ShooterConstants {

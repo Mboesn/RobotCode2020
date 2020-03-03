@@ -11,6 +11,14 @@ public class SetHookHeight extends CommandBase {
 
     private final DoubleSupplier heightSupplier;
 
+    /**
+     * Moves the hook to be in the shield generator switch height
+     * aka {@link ClimbConstants#kDesiredHookHeight}
+     */
+    public SetHookHeight(){
+        this(ClimbConstants.kDesiredHookHeight);
+    }
+
     public SetHookHeight(double height) {
         this(() -> height);
     }
