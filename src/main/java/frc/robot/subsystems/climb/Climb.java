@@ -2,24 +2,23 @@ package frc.robot.subsystems.climb;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.EncoderType;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotMap;
+import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
     private CANSparkMax climbSparkMax;
-    private AnalogPotentiometer hookPotentiometer;
-    private double offset;
 
     /**
      * The climb holds all the methods used for the robots climb in the endgame.
@@ -33,11 +32,10 @@ public class Climb extends SubsystemBase implements Loggable {
                 ClimbConstants.kHookThresholdLimit, ClimbConstants.kHookCurrentTimeout));
         hookTalonSRX.setInverted(ClimbConstants.kIsHookInverted);
         hookTalonSRX.setNeutralMode(NeutralMode.Brake);
-
-        hookPotentiometer = new AnalogPotentiometer(RobotMap.kHookPotentiometer,
-            ClimbConstants.kHookPotentiometerAngleMultiplier,
-            ClimbConstants.kHookPotentiometerOffset);
-
+        DriverStationLogger.logErrorToDS(
+            hookTalonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 10),
+            "Hook Encoder Disconnected");
+        resetHookRotations();
         climbSparkMax = new CANSparkMax(RobotMap.kClimbSparkMax, MotorType.kBrushless);
         climbSparkMax.setSmartCurrentLimit(ClimbConstants.kClimbCurrentLimit);
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
@@ -46,12 +44,11 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
-        offset = 0;
     }
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookPotentiometer.get() + offset;
+        return hookTalonSRX.getSelectedSensorPosition() * ClimbConstants.kHookTicksPerRotation;
     }
 
     public void setHookPower(double power) {
@@ -83,6 +80,21 @@ public class Climb extends SubsystemBase implements Loggable {
     }
 
     public void resetHookRotations() {
-        offset = -hookPotentiometer.get();
+        hookTalonSRX.setSelectedSensorPosition(0);
+        enableSoftLimits();
+    }
+
+    public void enableSoftLimits() {
+        hookTalonSRX.configForwardSoftLimitThreshold(
+            (int)(ClimbConstants.kMaxHookRotations * ClimbConstants.kHookTicksPerRotation));
+        hookTalonSRX.configReverseSoftLimitThreshold(
+            (int)(ClimbConstants.kMaxHookRotations * ClimbConstants.kHookTicksPerRotation));
+        hookTalonSRX.configForwardSoftLimitEnable(true);
+        hookTalonSRX.configReverseSoftLimitEnable(true);
+    }
+
+    public void disableSoftLimits() {
+        hookTalonSRX.configForwardSoftLimitEnable(false);
+        hookTalonSRX.configReverseSoftLimitEnable(false);
     }
 }

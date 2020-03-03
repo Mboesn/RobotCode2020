@@ -52,6 +52,7 @@ public class MoveClimbAndHook extends CommandBase {
             Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove && 
             climb.getHookRotations() < 2.5) {
             DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
+            climb.disableSoftLimits();
             sensitivity = 0.3;
             potentiometerDisconnected = true;
         }
