@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
+import frc.robot.motion_profiling.AutoPath;
 import frc.robot.constants.RobotMap;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
@@ -230,6 +231,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         resetEncoders();
         Rotation2d angle = Rotation2d.fromDegrees(getAngle());
         odometry.resetPosition(pose, angle);
+    }
+
+    /**
+     * @param autoPath reset odometry to the initial pose of the given AutoPath 
+     */
+    public void resetOdometry(AutoPath autoPath) {
+        resetOdometry(autoPath.getPath().getTrajectory().getInitialPose());
     }
 
     public void resetOdometry() {

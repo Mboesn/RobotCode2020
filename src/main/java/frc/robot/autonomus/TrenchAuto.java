@@ -20,10 +20,10 @@ public class TrenchAuto extends SequentialCommandGroup {
         addCommands(
             parallel(
                 sequence(
-                    new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
+                    new InstantCommand(() -> drivetrain.resetOdometry(autoPath)),
                     new AutoShoot(3)
                 ),
-                new FindOpenerOffset(), new InstantCommand()
+                new FindOpenerOffset()
             ),
             new OpenIntakeAndFollowPath(autoPath),
             deadline(
