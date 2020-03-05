@@ -31,7 +31,22 @@ public enum Song {
     Starwars_theme_and_twentieth_century_fox,
     Tetris,
     How_i_met_your_mother,
-    All_star;
+    All_star,
+    Jerusalem_of_gold,
+    Pirates_Of_The_Caribbean,
+    Hatikva,
+    Mario,
+    Superman,
+    Aint_No_Mountain_High_Enough,
+    Hooked_on_a_feeling,
+    Gravity_falls,
+    Friends,
+    Mizrach,
+    Mr_blue_sky,
+    Escape,
+    Harry_potter,
+    Come_and_get_your_love,
+    We_will_rock_you;
 
     private final String path;
 
