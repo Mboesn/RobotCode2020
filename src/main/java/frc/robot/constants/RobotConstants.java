@@ -104,6 +104,8 @@ public class RobotConstants {
         public static final double kFarawayTyMeasurement = 13;
     }
 
+    public static class 
+
     public static class MotionProfilingConstants {
         public static final double kMaxVelocity = 0;
         public static final double kMaxAcceleration = 0;
