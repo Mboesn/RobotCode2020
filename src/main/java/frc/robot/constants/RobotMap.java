@@ -38,7 +38,7 @@ public abstract class RobotMap {
     // TODO: find real port
     public static final int kSpinnerOpenerTalonSRX = 0;
     public static final int kSpinnerOpenerTopSwitch = 0;
-    public static final int kSpinnerOpenerBottomSwitch = 0;
+    public static final int kSpinnerOpenerBottomSwitch = 1;
     // PWM Map
     public static final int kLedController = 0;
 
