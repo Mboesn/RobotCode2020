@@ -3,6 +3,7 @@ package frc.robot.subsystems.spinneropener;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotMap;
 import frc.robot.subsystems.OverridableSubsystem;
 import io.github.oblarg.oblog.annotations.Log;
@@ -20,6 +21,9 @@ public class SpinnerOpener extends OverridableSubsystem {
     talonSRX = new WPI_TalonSRX(RobotMap.kSpinnerOpenerTalonSRX);
     topSwitch = new DigitalInput(RobotMap.kSpinnerOpenerTopSwitch);
     bottomSwitch = new DigitalInput(RobotMap.kSpinnerOpenerBottomSwitch);
+
+    talonSRX.configClosedloopRamp(RobotConstants.SpinnerOpener.kRampRate);
+    talonSRX.setInverted(RobotConstants.SpinnerOpener.kIsInverted);
   }
 
   @Override
@@ -32,12 +36,12 @@ public class SpinnerOpener extends OverridableSubsystem {
     talonSRX.set(power);
   }
 
-  @Log (name = "Spinner Opener/Top Switch")
+  @Log(name = "Spinner Opener/Top Switch")
   public boolean isTopSwitchPressed() {
     return topSwitch.get();
   }
 
-  @Log (name = "Spinner Opener/Bottom Switch")
+  @Log(name = "Spinner Opener/Bottom Switch")
   public boolean isBottomSwitchPressed() {
     return bottomSwitch.get();
   }
