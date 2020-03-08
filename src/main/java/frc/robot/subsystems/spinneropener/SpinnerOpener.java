@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.constants.RobotMap;
 import frc.robot.subsystems.OverridableSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class SpinnerOpener extends OverridableSubsystem {
   private WPI_TalonSRX talonSRX;
@@ -31,10 +32,12 @@ public class SpinnerOpener extends OverridableSubsystem {
     talonSRX.set(power);
   }
 
+  @Log (name = "Spinner Opener/Top Switch")
   public boolean isTopSwitchPressed() {
     return topSwitch.get();
   }
 
+  @Log (name = "Spinner Opener/Bottom Switch")
   public boolean isBottomSwitchPressed() {
     return bottomSwitch.get();
   }
