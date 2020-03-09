@@ -28,12 +28,13 @@ public class SpinnerOpener extends OverridableSubsystem {
 
   @Override
   public void overriddenMove(double power) {
-    talonSRX.set(power);
+      talonSRX.set(power);
   }
 
   @Override
   public void move(double power) {
-    talonSRX.set(power);
+    if ((isBottomSwitchPressed() && power > 0) || (isTopSwitchPressed() && power < 0))
+      talonSRX.set(power); 
   }
 
   @Log(name = "Spinner Opener/Top Switch")
