@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.drivetrain;
@@ -27,7 +28,8 @@ public class DriveWithXbox extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.arcadeDrive(xInput.getAsDouble(), yInput.getAsDouble());
+        drivetrain.arcadeDrive(xInput.getAsDouble() * drivetrain.getTrigonDriveSensitivity(),
+                yInput.getAsDouble() * drivetrain.getTrigonDriveSensitivity());
     }
 
     @Override

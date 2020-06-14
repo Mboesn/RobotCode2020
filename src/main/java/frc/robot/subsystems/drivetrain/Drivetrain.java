@@ -63,9 +63,9 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         configTalonFX(rightFront, rightFront);
 
         drivetrain = new TrigonDrive(leftFront, rightFront);
-        drivetrain.setDeadband(0);
+        drivetrain.setDeadband(0.05);
         drivetrain.setSafetyEnabled(false);
-        //tuneTrigonDrive();
+        // tuneTrigonDrive();
 
         leftEncoder = new TalonSRX(RobotMap.kDrivetrainLeftEncoder);
         DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),

@@ -15,7 +15,7 @@ public class RobotConstants {
         public static final double kRobotWidth = 0;
         public static final double kLeftEncoderTicksPerMeter = 8216;
         public static final double kRightEncoderTicksPerMeter = 8237;
-        public static final double kRampRate = 0.1;
+        public static final double kRampRate = 0.5;
         public static final double kCurrentLimit = 50;
         public static final double kTriggerThresholdCurrent = 50;
         public static final double kTriggerThresholdTime = 1;
@@ -26,7 +26,7 @@ public class RobotConstants {
     }
 
     public static class TrigonDriveConstants {
-        public static final double kSensitivity = 1;
+        public static final double kSensitivity = 0.6;
         public static final double kThreshold = 0.5;
     }
 
