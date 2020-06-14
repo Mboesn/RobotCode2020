@@ -10,28 +10,25 @@ import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 
 import static frc.robot.Robot.drivetrain;
 
-/**
- * This auto command shoots 3 balls and then goes to collect more cells from the trench run
- */
-public class TrenchAuto extends SequentialCommandGroup {
-    public TrenchAuto(StartingPose startingPose) {
-        AutoPath autoPath = startingPose == StartingPose.kFacingPowerPort ?
+public class MiddleFieldAndTrenchAuto extends SequentialCommandGroup {
+    /**
+     * Creates a new MiddleFieldAndTrenchAuto.
+     */
+    public MiddleFieldAndTrenchAuto(StartingPose startingPose) {
+        AutoPath firstAutoPath = startingPose == StartingPose.kFacingPowerPort ?
             AutoPath.FacingPowerPortToTrenchStart : AutoPath.InLineWithTrenchToTrenchStart;
         addCommands(
             parallel(
-                sequence(
-                    new AutoShoot(3),
-                    new InstantCommand(() -> drivetrain.resetOdometry(autoPath))
-                ),
+                new AutoShoot(3),
                 new FindOpenerOffset()
             ),
+            new InstantCommand(() -> drivetrain.resetOdometry(firstAutoPath)),
             deadline(
                 sequence(
-                    new FollowPath(autoPath),
-                    new FollowPath(AutoPath.InTrench),
-                    new FollowPath(AutoPath.TrenchToShootingPosition)
-                    ),
-                new CollectCell(0.5)
+                    new FollowPath(firstAutoPath),
+                    new FollowPath(AutoPath.TrenchStartToMiddleField)
+                ),
+                new CollectCell()
             ),
             new AutoShoot(5)
         );
