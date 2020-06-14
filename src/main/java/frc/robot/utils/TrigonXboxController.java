@@ -94,9 +94,9 @@ public class TrigonXboxController extends XboxController {
      *
      * @return The difference between the left and right triggers.
      */
-    public double getDeltaTriggers() {
-        return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
-    }
+    // public double getDeltaTriggers() {
+    //     return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
+    // }
 
 
     /**

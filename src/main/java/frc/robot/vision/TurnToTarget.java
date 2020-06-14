@@ -61,7 +61,7 @@ public class TurnToTarget extends CommandBase {
         if (hasFoundTarget)
             drivetrain.stopMoving();
         else
-            drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
+            drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getY(Hand.kLeft));
     }
 
     @Override

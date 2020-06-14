@@ -64,7 +64,7 @@ public class FollowTarget extends CommandBase {
             drivetrain.curvatureDrive(rotationOutput, distanceOutput, false);
         } else {
             // The target wasn't found, driver's control
-            drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
+            drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getY(Hand.kLeft));
         }
     }
 

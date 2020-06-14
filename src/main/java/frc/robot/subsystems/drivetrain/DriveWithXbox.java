@@ -27,7 +27,7 @@ public class DriveWithXbox extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.trigonCurvatureDrive(xInput.getAsDouble(), yInput.getAsDouble());
+        drivetrain.arcadeDrive(xInput.getAsDouble(), yInput.getAsDouble());
     }
 
     @Override

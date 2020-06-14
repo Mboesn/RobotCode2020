@@ -25,41 +25,24 @@ public class CollectFromFeeder extends SequentialCommandGroup {
     private static final double kDefaultMoveForwardPower = 0.1;
 
     public CollectFromFeeder() {
-        addCommands(
-            sequence(
-                new SetIntakeAngle(IntakeAngle.FullyOpen),
+        addCommands(sequence(new SetIntakeAngle(IntakeAngle.FullyOpen),
+                deadline(new FollowTarget(Target.Feeder), new SetIntakeSpeed()),
+                parallel(sequence(new DriveWithXbox(() -> 0, () -> {
+                    double power = oi.getDriverXboxController().getY(Hand.kLeft);
+                    return (power > kForwardDeadband ? power : kDefaultMoveForwardPower);
+                }).withTimeout(0.75), new DriveWithXbox(() -> 0, () -> oi.getDriverXboxController().getY(Hand.kLeft))),
+                        new SpinMixerByTime(MixerPower.MixForSort), new SetLoaderSpeed(LoaderPower.UnloadForSort),
+                        new SetIntakeAngle(IntakeAngle.CloseForFeeder),
+                        new SetIntakeSpeed(IntakeConstants.kFeederIntakePower))).withInterrupt(
+                                () -> oi.getDriverXboxController().getY(Hand.kLeft) < kBackwardsDeadband),
                 deadline(
-                    new FollowTarget(Target.Feeder),
-                    new SetIntakeSpeed()
-                ),
-                parallel(
-                    sequence(
-                        new DriveWithXbox(() -> 0,
-                            () -> {
-                                double power = oi.getDriverXboxController().getDeltaTriggers();
-                                return (power > kForwardDeadband ? power : kDefaultMoveForwardPower);
-                            }
-                        ).withTimeout(0.75),
-                        new DriveWithXbox(() -> 0,
-                        () -> oi.getDriverXboxController().getDeltaTriggers())
-                    ),
-                    new SpinMixerByTime(MixerPower.MixForSort),
-                    new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                    new SetIntakeAngle(IntakeAngle.CloseForFeeder),
-                    new SetIntakeSpeed(IntakeConstants.kFeederIntakePower)
-                )
-            ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
-            deadline(
-                parallel(
-                    new SetIntakeAngle(IntakeAngle.Close),
-                    deadline(
-                        new WaitUntilCommand(() -> oi.getDriverXboxController().getYButton()).withTimeout(OIConstants.kSortAfterCollectCellTimeout),
-                        new SpinMixerByTime(MixerPower.MixForSort),
-                        new SetLoaderSpeed(LoaderPower.UnloadForSort)
-                    )
-                ),
-                new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft), () -> oi.getDriverXboxController().getDeltaTriggers())
-            )
-        );
+                        parallel(new SetIntakeAngle(IntakeAngle.Close),
+                                deadline(
+                                        new WaitUntilCommand(() -> oi.getDriverXboxController().getYButton())
+                                                .withTimeout(OIConstants.kSortAfterCollectCellTimeout),
+                                        new SpinMixerByTime(MixerPower.MixForSort),
+                                        new SetLoaderSpeed(LoaderPower.UnloadForSort))),
+                        new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
+                                () -> oi.getDriverXboxController().getY(Hand.kLeft))));
     }
 }

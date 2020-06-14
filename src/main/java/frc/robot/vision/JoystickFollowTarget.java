@@ -55,16 +55,16 @@ public class JoystickFollowTarget extends CommandBase {
     public void execute() {
         if (limelight.getTv()) {
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.arcadeDrive(rotationOutput, oi.getDriverXboxController().getDeltaTriggers());
+            drivetrain.arcadeDrive(rotationOutput, oi.getDriverXboxController().getY(Hand.kLeft));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
             foundTargetAlready = true;
         } else
             // The target wasn't found
             if (foundTargetAlready)
-                drivetrain.trigonCurvatureDrive(0, oi.getDriverXboxController().getDeltaTriggers());
+                drivetrain.trigonCurvatureDrive(0, oi.getDriverXboxController().getY(Hand.kLeft));
             else
                 drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft),
-                    oi.getDriverXboxController().getDeltaTriggers());
+                    oi.getDriverXboxController().getY(Hand.kLeft));
     }
 
     @Override
