@@ -66,7 +66,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         configTalonFX(rightFront, rightFront);
 
         drivetrain = new TrigonDrive(leftFront, rightFront);
-        drivetrain.setDeadband(0.05);
+        drivetrain.setDeadband(0);
         drivetrain.setSafetyEnabled(false);
         // tuneTrigonDrive();
 

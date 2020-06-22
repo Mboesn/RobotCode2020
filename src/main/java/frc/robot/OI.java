@@ -27,6 +27,8 @@ import static frc.robot.Robot.mixer;
 public class OI {
     private static final int kDriverPort = 0;
     private static final int kOperatorPort = 1;
+    private static final double kDeadband = 0.075;
+    ;
     private TrigonXboxController driverXbox;
     private TrigonXboxController operatorXbox;
     // driver commands
@@ -68,7 +70,9 @@ public class OI {
     }
 
     private void createDriverCommands() {
-        driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), () -> driverXbox.getY(Hand.kLeft));
+        driverDriveWithXbox = new DriveWithXbox(
+                Math.abs(driverXbox.getX(Hand.kLeft)) > kDeadband ? () -> driverXbox.getX(Hand.kLeft) : () -> 0,
+                Math.abs(driverXbox.getY(Hand.kLeft)) > kDeadband ? () -> driverXbox.getY(Hand.kLeft) : () -> 0);
         driverAutoShoot = new AutoShoot().withInterrupt(
                 () -> Math.abs(driverXbox.getY(Hand.kLeft)) >= OIConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
