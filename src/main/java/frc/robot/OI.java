@@ -70,9 +70,7 @@ public class OI {
     }
 
     private void createDriverCommands() {
-        driverDriveWithXbox = new DriveWithXbox(
-                Math.abs(driverXbox.getX(Hand.kLeft)) > kDeadband ? () -> driverXbox.getX(Hand.kLeft) : () -> 0,
-                Math.abs(driverXbox.getY(Hand.kLeft)) > kDeadband ? () -> driverXbox.getY(Hand.kLeft) : () -> 0);
+        driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), () -> driverXbox.getY(Hand.kLeft));
         driverAutoShoot = new AutoShoot().withInterrupt(
                 () -> Math.abs(driverXbox.getY(Hand.kLeft)) >= OIConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
